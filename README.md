@@ -8,6 +8,8 @@ This started as a final project for a Network Security class, but I decided to g
 
 ### Diffie-Hellman ###
 
+Diffie-Hellman class takes arguments of p, alpha, and a private secret integer. If no inputs are supplied, a default p and alpha are used and a secret integer is generated. After this, a public key for the user is generated. This class also contains a function for determining the shared secret, given that another user (with the same p and alpha) has supplied their public key.
+
 ### LSFR and RSA ###
 
 ## Encrypting/Decrypting Messages ##

@@ -2,7 +2,7 @@ import socket
 import threading
 import sys
 import time
-import random
+from diffie_hellman import DiffieHellman
 
 def tcp_server(host, port):
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
