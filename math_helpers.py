@@ -1,4 +1,5 @@
 import random
+import os
 
 def gcd(a, b):
     while b != 0:
@@ -50,11 +51,5 @@ def exponentiation(m, e, n):
 		#m = (m * m) % n  # Square m
 	return result
 
-def avni_exponentiation(mod,e,n):
-    r=1 #intialize r to 1
-    b = bin(e)[2:] #get binary representation of e w/o 0b prefix
-    for bit in b: #go over each bit in binary rep
-        r = (r*r)%n #take square and mod
-        if bit == '1': #if bit is 1
-            r=(r*mod)%n #mutiply r by n and take mod n
-    return r #return new r
+def xor_bytes(bytes1, bytes2):
+	return bytes(a ^ b for a, b in zip(bytes1, bytes2))

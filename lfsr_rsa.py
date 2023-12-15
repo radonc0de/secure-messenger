@@ -19,7 +19,7 @@ class LFSR_RSA:
 			period += 1
 		return ''.join(key)
 
-	def rsa_generate_key(self, p: int, q: int) -> tuple[tuple[int, int, int], tuple[int, int]]:
+	def rsa_generate_key(self, p, q):
 		n = p * q
 		phi_n = (p - 1) * (q - 1)
 		e = random.randint(2, phi_n - 1)
@@ -29,9 +29,6 @@ class LFSR_RSA:
 		self.rsa_public = (e, n)
 		self.rsa_private = (d, n)
 
-	def saveOtherPublic(self, otherPublic):
-		self.rsa_otherPublic = otherPublic
-
 	def encrypt(self, plaintext):
 		key, n = self.rsa_otherPublic
 		joined = int(plaintext, 2)
@@ -40,8 +37,11 @@ class LFSR_RSA:
 
 	def decrypt(self, ciphertext):
 		key, n = self.rsa_private
-		plain = bin(math_helpers.avni_exponentiation(ciphertext, key, n))
+		plain = bin(math_helpers.exponentiation(ciphertext, key, n))
 		return ''.join(plain)
+
+	def saveOtherPublic(self, otherPublic):
+		self.rsa_otherPublic = otherPublic
 
 # For Testing
 if __name__ == "__main__":
