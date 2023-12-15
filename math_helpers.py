@@ -38,3 +38,23 @@ def is_prime(num):
         if num % n == 0:
             return False
     return True
+
+def exponentiation(m, e, n):
+	result = 1
+	m = m % n
+	while e > 0:
+		if e % 2:  # If e is odd, multiply m with the result
+			result = (result * m) % n
+		e = e // 2  # Reduce e by half
+		m = pow(m, 2, n)
+		#m = (m * m) % n  # Square m
+	return result
+
+def avni_exponentiation(mod,e,n):
+    r=1 #intialize r to 1
+    b = bin(e)[2:] #get binary representation of e w/o 0b prefix
+    for bit in b: #go over each bit in binary rep
+        r = (r*r)%n #take square and mod
+        if bit == '1': #if bit is 1
+            r=(r*mod)%n #mutiply r by n and take mod n
+    return r #return new r
