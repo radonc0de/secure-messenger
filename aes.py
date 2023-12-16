@@ -42,7 +42,6 @@ def des_encrypt(message, key, mode):
 	if mode == 'ECB':
 		cipher = DES.new(key, DES.MODE_ECB)
 	elif mode == 'CBC':
-		iv = get_random_bytes(DES.block_size)
 		cipher = DES.new(key, DES.MODE_CBC, iv)
 		encrypted_message = iv + cipher.encrypt(padded_message)  # Prepend IV for CBC mode
 		return encrypted_message
@@ -59,33 +58,49 @@ def des_decrypt(encrypted_message, key, mode):
 		cipher = DES.new(key, DES.MODE_CBC, iv)
 	else:
 		raise ValueError("Unsupported mode")
-	decrypted_message = unpad(cipher.decrypt(encrypted_message), DES.block_size)
-	return decrypted_message
+	decrypted_message = cipher.decrypt(encrypted_message)
+	unpadder = padding.PKCS7(DES.block_size).unpadder()
+	unpadded_plaintext = unpadder.update(decrypted_message) 
+	return unpadded_plaintext.decode('utf-8')
 
 if __name__ == "__main__":
+	# AES TESTING
+	"""
 	key_hex = "00112233445566778899aabbccddeeff" # Example for AES-128
 	iv_hex = "0102030405060708090a0b0c0d0e0f10"
 	key_bytes = bytes.fromhex(key_hex)
 	iv_bytes = bytes.fromhex(iv_hex)
-
 	plaintext = "Hello, world!"
+	#print("Plaintext:", plaintext)
 	encrypted = aes_ecb_encrypt(key_bytes, plaintext) 
-	print(encrypted)
+	#print("Encrypted (ECB):", encrypted)
 	decrypted = aes_ecb_decrypt(key_bytes, encrypted)
-	print(decrypted)
+	print("Decrypted (ECB):", decrypted)
 	encrypted2 = aes_cbc_encrypt(key_bytes, plaintext, iv_bytes)
-	print(encrypted2)
 	decrypted2 = aes_cbc_decrypt(key_bytes, encrypted2, iv_bytes)
-	print(decrypted2)
-
+	print("Decrypted (CBC):", decrypted2)
+	encrypted = aes_ecb_encrypt(key_bytes, plaintext) 
+	decrypted = aes_ecb_decrypt(key_bytes, encrypted)
+	print("Decrypted (ECB):", decrypted)
+	encrypted2 = aes_cbc_encrypt(key_bytes, plaintext, iv_bytes)
+	print("Encrypted (CBC):", encrypted2)
+	decrypted2 = aes_cbc_decrypt(key_bytes, encrypted2, iv_bytes)
+	print("Decrypted (CBC):", decrypted2)
+	"""
+	# DES TESTING
 	key = get_random_bytes(8)  # DES key must be 8 bytes long
 	iv = get_random_bytes(DES.block_size)  # IV must be 8 bytes long for DES
-
-	plaintext = plaintext.encode('utf-8')
-	encrypted3 = des_encrypt(plaintext, key, mode='ECB')
-	print(encrypted3)
-	decrypted3 = des_decrypt(plaintext, key, mode='ECB')
-	print(decrypted3)
-
-
-
+	"""
+	plaintext = b'Hello with ECB'
+	encrypted4 = des_encrypt(plaintext, key, mode='ECB')
+	decrypted4 = des_decrypt(encrypted4, key, mode='ECB')
+	print('Decrypted:',decrypted4)
+	"""
+	plaintext = b'Hello with CBC'
+	print('Plaintext:', plaintext)
+	encrypted5 = des_encrypt(plaintext, key, mode='CBC')
+	print('Encrypted:',encrypted5)
+	decrypted5 = des_decrypt(encrypted5, key, mode='CBC')
+	"""
+	print('Decrypted:',decrypted5)
+	"""

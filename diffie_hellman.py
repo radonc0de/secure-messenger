@@ -23,7 +23,6 @@ if __name__ == "__main__":
 	u1.findSharedSecret(u2.public)
 	u2.findSharedSecret(u1.public)
 	print("U1 computed shared secret:", u1.sharedSecret)
-	print("U2 computed shared secret:", u2.sharedSecret)
 
 
 
